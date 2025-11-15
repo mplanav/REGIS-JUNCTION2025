@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Float, Boolean, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from db.session import Base
+from app.db.database import Base
 
 
 class RequirementPair(Base):

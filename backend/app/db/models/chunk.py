@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from pgvector.sqlalchemy import Vector
 
-from db.session import Base
+from app.db.database import Base
 
 class Chunk(Base):
     __tablename__ = "chunks"

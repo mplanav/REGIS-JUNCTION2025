@@ -3,7 +3,8 @@
 import random
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
-from app.db.models import Requirement, RiskTypeEnum
+from app.db.models import RiskTypeEnum
+from app.db.models.requirements import Requirement
 
 # --- 1) Jurisdicciones simuladas ---
 JURISDICTIONS = [

@@ -28,7 +28,7 @@ services:
       - regis-net
 
   postgres:
-    image: postgres:15
+    image: pgvector/pgvector:pg15
     container_name: regis-db
     restart: always
     environment:
