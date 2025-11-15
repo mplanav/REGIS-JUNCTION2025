@@ -1,0 +1,10 @@
+MOCK_PERCENTAGES = {
+    "AML": 15,
+    "FRAUD": 10,
+    "CYBERSECURITY": 20,
+    "GOVERNANCE": 5,
+    "PRIVACY": 25,
+    "OPERATIONAL": 15,
+    "COMPLIANCE": 5,
+    "OTHER": 5
+}

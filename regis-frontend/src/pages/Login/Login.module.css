@@ -1,0 +1,86 @@
+.loginShell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e8eef5 0%, #f5f7fa 100%);
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 48px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #0F5499;
+    margin: 0 0 12px 0;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #64748b;
+    margin: 0 0 32px 0;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.btn {
+    background: #0F5499;
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background: #0d4580;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 84, 153, 0.3);
+}
+
+.btnOutline {
+    background: white;
+    color: #0F5499;
+    border: 2px solid #0F5499;
+    padding: 16px 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.btnOutline:hover {
+    background: #f0f7ff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 84, 153, 0.15);
+}

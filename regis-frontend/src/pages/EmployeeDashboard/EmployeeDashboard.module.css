@@ -1,0 +1,12 @@
+.shell {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    height: calc(100vh - 64px);
+    background: #f8fafc;
+}
+
+.main {
+    min-height: 100%;
+    overflow-y: auto;
+    background: #f8fafc;
+}

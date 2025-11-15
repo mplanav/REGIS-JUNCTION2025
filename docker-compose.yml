@@ -1,0 +1,50 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: regis-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - regis-net
+
+  frontend:
+    build:
+      context: ./regis-frontend
+      dockerfile: Dockerfile
+    container_name: regis-frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://backend:8000/api/v1
+    depends_on:
+      - backend
+    networks:
+      - regis-net
+
+  postgres:
+    image: postgres:15
+    container_name: regis-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: regisdb
+    volumes:
+      - regis_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - regis-net
+
+volumes:
+  regis_data:
+
+networks:
+  regis-net:
+    driver: bridge

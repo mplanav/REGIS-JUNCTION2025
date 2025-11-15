@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.zip
+*.bin
+*.pt
+*.pth
+*.pdf
+*.json
+env/
+venv/
+.ipynb_checkpoints/
+data/
+datasets/
+logs/
+tmp/

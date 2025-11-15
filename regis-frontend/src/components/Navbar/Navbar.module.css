@@ -1,0 +1,70 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.left {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon {
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0F5499;
+}
+
+.role {
+    font-size: 14px;
+    color: #64748b;
+    padding-left: 12px;
+    border-left: 1px solid #e5e7eb;
+}
+
+.right {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1e293b;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #0F5499;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.logoutIcon {
+    color: #64748b;
+}
