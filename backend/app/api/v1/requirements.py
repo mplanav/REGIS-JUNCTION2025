@@ -9,10 +9,10 @@ from app.db.models.requirements import Requirement
 from app.api.v1.schemas.requirements import (
     RequirementItem,
     RequirementsListResponse,
-    SuggestedRequirementItem,
+    SuggestedRequirement,
     SuggestedRequirementsResponse,
     RequirementDetailResponse,
-    RequirementNotFound
+    RequirementNotFound,
 )
 
 router = APIRouter(prefix="/requirements", tags=["Requirements"])

@@ -26,12 +26,12 @@ class ConflictSummaryItem(BaseModel):
     description: str
 
 
-class ConflictSummaryResponse(BaseModel):
+class ConflictsSummaryResponse(BaseModel):
     total: int
     items: List[ConflictSummaryItem]
 
 
-class ConflictDetailResponse(BaseModel):
+class ConflictsDetailResponse(BaseModel):
     count: int
     type: str
     items: List[ConflictItem]

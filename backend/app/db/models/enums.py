@@ -13,6 +13,12 @@ class RiskTypeEnum(str, enum.Enum):
 
 class JurisdictionEnum(str, enum.Enum):
     EU = "EU"
-    FINLAND = "FINLAND"
+    ESMA = "ESMA"
+    EBA = "EBA"
+    ECB = "ECB"
+    BASEL = "Basel"
+    FINCEN = "FinCEN"
+    FSB = "FSB"
     GLOBAL = "GLOBAL"
+    UK_FCA = "UK-FCA"
     OTHER = "OTHER"

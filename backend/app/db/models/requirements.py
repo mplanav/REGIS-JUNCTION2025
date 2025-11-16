@@ -109,7 +109,7 @@ class Contradiction(Base):
 # =====================================================
 
 class Overlap(Base):
-    __tablename__ = "overlaps"
+    __tablename__ = "requirement_overlaps"
 
     id = Column(Integer, primary_key=True, index=True)
 

@@ -10,8 +10,8 @@ from app.api.v1.schemas.conflicts import (
     RequirementRef,
     ConflictItem,
     ConflictsDetailResponse,
-    ConflictSummaryItem,
-    ConflictsSummaryResponse
+    ConflictsSummaryResponse,
+    ConflictSummaryItem
 )
 
 router = APIRouter(prefix="/conflicts", tags=["Conflicts"])
