@@ -42,13 +42,11 @@ desktop.ini
 #  BACKEND (FastAPI, Python)
 # ========================================
 
-# Carpeta del entorno virtual (por si hay varios)
 backend/venv/
 backend/__pycache__/
 backend/*.db
 backend/*.sqlite3
 
-# Archivos generados
 backend/logs/
 backend/tmp/
 backend/.pytest_cache/
@@ -71,14 +69,12 @@ collector/*.log
 #  FRONTEND (React / TypeScript)
 # ========================================
 
-# Dependencias y build
 frontend/node_modules/
 frontend/.next/
 frontend/out/
 frontend/build/
 frontend/.cache/
 
-# Configuración temporal
 frontend/.eslintcache
 frontend/.env*
 frontend/npm-debug.log*
@@ -90,12 +86,10 @@ frontend/pnpm-debug.log*
 #  DOCKER & DEVOPS
 # ========================================
 
-# Archivos de runtime
 *.pid
 *.seed
 *.pid.lock
 
-# Docker
 docker-compose.override.yml
 .docker/
 **/Dockerfile.local
@@ -115,16 +109,13 @@ test-results/
 #  IDEs y editores
 # ========================================
 
-# VS Code
 .vscode/
 .history/
 *.code-workspace
 
-# JetBrains / PyCharm
 .idea/
 *.iml
 
-# Otros
 *.sublime-project
 *.sublime-workspace
 
@@ -132,6 +123,14 @@ test-results/
 #  MISC
 # ========================================
 
-# Archivos temporales o de ejemplo
 *.example
 *.backup
+
+# ========================================
+#  DATA (IMPORTANT)
+#  Evitar subir datasets pesados a Docker
+# ========================================
+
+data/
+*/data/
+**/data/*

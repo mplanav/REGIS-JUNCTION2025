@@ -8,6 +8,8 @@ services:
       - ./backend/.env
     ports:
       - "8000:8000"
+    volumes:
+      - ./data:/app/data   # <<--- AÑADIDO: carpeta local 'data' accesible dentro del contenedor
     depends_on:
       - postgres
     networks:
@@ -44,6 +46,8 @@ services:
 
 volumes:
   regis_data:
+    external: true
+    name: junction_2025_bof-challenge_regis_data
 
 networks:
   regis-net:
