@@ -111,17 +111,17 @@ export default function EmployeeDashboard() {
                             {suggestedRegulations.map((regulation, idx) => {
                                 const badgeColor = getBadgeColor(regulation.badgeStyle);
                                 return (
-                                    <div key={regulation.id || idx} style={{ 
-                                        backgroundColor: 'white', 
-                                        border: '1px solid #e2e8f0', 
-                                        borderRadius: '8px', 
+                                    <div key={regulation.id || idx} style={{
+                                        backgroundColor: 'white',
+                                        border: '1px solid #e2e8f0',
+                                        borderRadius: '8px',
                                         padding: '16px'
                                     }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                                            <span style={{ 
-                                                fontSize: '12px', 
-                                                fontWeight: '600', 
-                                                padding: '4px 8px', 
+                                            <span style={{
+                                                fontSize: '12px',
+                                                fontWeight: '600',
+                                                padding: '4px 8px',
                                                 borderRadius: '4px',
                                                 backgroundColor: badgeColor.bg,
                                                 color: badgeColor.text
@@ -132,12 +132,12 @@ export default function EmployeeDashboard() {
                                         </div>
                                         <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '12px' }}>{regulation.description}</p>
                                         <div>
-                                            <span style={{ 
-                                                fontSize: '12px', 
-                                                color: '#0f5499', 
-                                                backgroundColor: '#dbeafe', 
-                                                padding: '4px 8px', 
-                                                borderRadius: '4px' 
+                                            <span style={{
+                                                fontSize: '12px',
+                                                color: '#0f5499',
+                                                backgroundColor: '#dbeafe',
+                                                padding: '4px 8px',
+                                                borderRadius: '4px'
                                             }}>
                                                 {regulation.tag}
                                             </span>

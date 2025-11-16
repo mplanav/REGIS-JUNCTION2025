@@ -55,7 +55,7 @@ export default function RightPanel() {
             try {
                 console.log('Fetching risk coverage summary...');
                 const response = await fetch(`${RISKS_API_URL}/risks/summary`, {
-                    headers: { 
+                    headers: {
                         'accept': 'application/json',
                         'ngrok-skip-browser-warning': 'true'
                     }
@@ -110,7 +110,7 @@ export default function RightPanel() {
                 console.log('Fetching regulation data...');
 
                 const response = await fetch(`${CONFLICTS_API_URL}/conflicts/summary`, {
-                    headers: { 
+                    headers: {
                         'accept': 'application/json',
                         'ngrok-skip-browser-warning': 'true'
                     }
@@ -156,20 +156,20 @@ export default function RightPanel() {
             const categoryUpper = category.toUpperCase();
             console.log(`Fetching details for ${categoryUpper}...`);
             const response = await fetch(`${RISKS_API_URL}/risks/detail/${categoryUpper}`, {
-                headers: { 
+                headers: {
                     'accept': 'application/json',
                     'ngrok-skip-browser-warning': 'true'
                 }
             });
-            
+
             const contentType = response.headers.get('content-type');
             console.log('Response content-type:', contentType);
             console.log('Response status:', response.status);
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             const data = await response.json();
             console.log(`${category} details response:`, data);
 
@@ -187,13 +187,13 @@ export default function RightPanel() {
     const handleSegmentClick = async (segment, percentage) => {
         setSelectedSegment({ segment, percentage });
         setSegmentDetails(null);
-        
+
         // Set default descriptions for each segment type
         const defaultDescriptions = {
             overlaps: "Cases where two requirements are redundant or partially duplicate the same regulatory obligations.",
             conflicts: "Cases where two requirements conflict or impose opposing obligations that cannot be satisfied simultaneously."
         };
-        
+
         setSegmentDescription(defaultDescriptions[segment]);
 
         // Map segment name to API parameter - use singular forms 'overlap' and 'contradiction'
@@ -204,7 +204,7 @@ export default function RightPanel() {
             console.log(`Fetching ${segment} details from:`, endpoint);
 
             const response = await fetch(endpoint, {
-                headers: { 
+                headers: {
                     'accept': 'application/json',
                     'ngrok-skip-browser-warning': 'true'
                 }
@@ -215,7 +215,7 @@ export default function RightPanel() {
 
             if (data && data.items && Array.isArray(data.items)) {
                 setSegmentDetails(data.items);
-                
+
                 // Override with specific description from first item if available
                 if (data.items.length > 0 && data.items[0].description) {
                     setSegmentDescription(data.items[0].description);
@@ -356,10 +356,10 @@ export default function RightPanel() {
                         </h4>
 
                         {segmentDescription && (
-                            <div style={{ 
-                                marginBottom: '12px', 
-                                padding: '12px', 
-                                backgroundColor: '#f8fafc', 
+                            <div style={{
+                                marginBottom: '12px',
+                                padding: '12px',
+                                backgroundColor: '#f8fafc',
                                 borderRadius: '6px',
                                 fontSize: '13px',
                                 color: '#475569',
