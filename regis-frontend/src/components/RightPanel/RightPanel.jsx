@@ -2,16 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./RightPanel.module.css";
 
 export default function RightPanel() {
-    const [riskCoverageData] = useState([
-        { category: "AML", value: 75, color: "#0F5499" },
-        { category: "Fraud", value: 90, color: "#0F5499" },
-        { category: "Cybersecurity", value: 65, color: "#0F5499" },
-        { category: "Governance", value: 80, color: "#0F5499" },
-        { category: "Privacy", value: 85, color: "#0F5499" },
-        { category: "Operational", value: 70, color: "#0F5499" },
-        { category: "Compliance", value: 95, color: "#0F5499" },
-        { category: "Other", value: 55, color: "#0F5499" }
-    ]);
+    const [riskCoverageData, setRiskCoverageData] = useState([]);
 
     const [regulationAnalysis, setRegulationAnalysis] = useState({
         overlaps: 50,
@@ -21,14 +12,18 @@ export default function RightPanel() {
     const [selectedBar, setSelectedBar] = useState(null);
     const [selectedSegment, setSelectedSegment] = useState(null);
     const [segmentDetails, setSegmentDetails] = useState(null);
+    const [segmentDescription, setSegmentDescription] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [barDescription, setBarDescription] = useState(null);
 
     // BASE URL (Docker / local / prod)
-    const API_BASE_URL = import.meta.env.VITE_API_URL;
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://turbosupercharged-superconfident-hayden.ngrok-free.dev/api/v1';
+    const RISKS_API_URL = "https://turbosupercharged-superconfident-hayden.ngrok-free.dev/api/v1/risks";
+    const CONFLICTS_API_URL = "https://turbosupercharged-superconfident-hayden.ngrok-free.dev/api/v1/conflicts";
 
     // Fetch overlaps
     const fetchOverlaps = async () => {
-        const url = `${API_BASE_URL}/overlaps/?limit=100&offset=0`;
+        const url = `${API_BASE_URL}https://turbosupercharged-superconfident-hayden.ngrok-free.dev/api/v1/conflicts/conflicts/detail/overlap`;
         console.log("Fetching overlaps:", url);
 
         const res = await fetch(url, { headers: { "accept": "application/json" } });
@@ -54,6 +49,59 @@ export default function RightPanel() {
     };
 
 
+    // Fetch risk coverage data
+    useEffect(() => {
+        const fetchRiskCoverageData = async () => {
+            try {
+                console.log('Fetching risk coverage summary...');
+                const response = await fetch(`${RISKS_API_URL}/risks/summary`, {
+                    headers: { 
+                        'accept': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                const data = await response.json();
+                console.log('Risk Coverage API Response:', data);
+
+                if (data && data.risks && Array.isArray(data.risks)) {
+                    const formattedData = data.risks.map(risk => ({
+                        category: risk.risk_type,
+                        value: risk.percentage,
+                        color: "#0F5499"
+                    }));
+                    setRiskCoverageData(formattedData);
+                } else {
+                    // Fallback if API format is different
+                    setRiskCoverageData([
+                        { category: "AML", value: 75, color: "#0F5499" },
+                        { category: "Fraud", value: 90, color: "#0F5499" },
+                        { category: "Cybersecurity", value: 65, color: "#0F5499" },
+                        { category: "Governance", value: 80, color: "#0F5499" },
+                        { category: "Privacy", value: 85, color: "#0F5499" },
+                        { category: "Operational", value: 70, color: "#0F5499" },
+                        { category: "Compliance", value: 95, color: "#0F5499" },
+                        { category: "Other", value: 55, color: "#0F5499" }
+                    ]);
+                }
+            } catch (err) {
+                console.error('Error fetching risk coverage data:', err);
+                // Fallback to default data
+                setRiskCoverageData([
+                    { category: "AML", value: 75, color: "#0F5499" },
+                    { category: "Fraud", value: 90, color: "#0F5499" },
+                    { category: "Cybersecurity", value: 65, color: "#0F5499" },
+                    { category: "Governance", value: 80, color: "#0F5499" },
+                    { category: "Privacy", value: 85, color: "#0F5499" },
+                    { category: "Operational", value: 70, color: "#0F5499" },
+                    { category: "Compliance", value: 95, color: "#0F5499" },
+                    { category: "Other", value: 55, color: "#0F5499" }
+                ]);
+            }
+        };
+
+        fetchRiskCoverageData();
+    }, []);
+
     // Fetch regulation analysis data
     useEffect(() => {
         const fetchRegulationData = async () => {
@@ -61,39 +109,31 @@ export default function RightPanel() {
             try {
                 console.log('Fetching regulation data...');
 
-                const [overlapsRes, contradictionsRes] = await Promise.all([
-                    fetch(`${API_BASE_URL}/overlaps/?limit=100&offset=0`, {
-                        headers: { 'accept': 'application/json' }
-                    }),
-                    fetch(`${API_BASE_URL}/contradictions/?limit=100&offset=0`, {
-                        headers: { 'accept': 'application/json' }
-                    })
-                ]);
+                const response = await fetch(`${CONFLICTS_API_URL}/conflicts/summary`, {
+                    headers: { 
+                        'accept': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
 
-                const overlapsData = await overlapsRes.json();
-                const contradictionsData = await contradictionsRes.json();
+                const data = await response.json();
+                console.log('Conflicts Summary API Response:', data);
 
-                console.log('Overlaps API Response:', overlapsData);
-                console.log('Contradictions API Response:', contradictionsData);
+                if (data && data.items && Array.isArray(data.items) && data.items.length > 0) {
+                    const contradictionItem = data.items.find(item => item.type === 'contradiction');
+                    const overlapItem = data.items.find(item => item.type === 'overlap');
 
-                if (overlapsData.detail || contradictionsData.detail) {
-                    console.warn('API returned error details, using default values');
-                    return;
-                }
-
-                const overlapsCount = overlapsData.count || (Array.isArray(overlapsData) ? overlapsData.length : 0);
-                const contradictionsCount = contradictionsData.count || (Array.isArray(contradictionsData) ? contradictionsData.length : 0);
-
-                const total = overlapsCount + contradictionsCount;
-
-                if (total > 0) {
-                    const overlapsPercent = Math.round((overlapsCount / total) * 100);
-                    const conflictsPercent = 100 - overlapsPercent;
-
-                    setRegulationAnalysis({
-                        overlaps: overlapsPercent,
-                        conflicts: conflictsPercent
-                    });
+                    if (contradictionItem && overlapItem) {
+                        setRegulationAnalysis({
+                            overlaps: overlapItem.percentage,
+                            conflicts: contradictionItem.percentage
+                        });
+                    }
+                } else if (data && data.total === 0) {
+                    console.log('No conflicts data available yet - using default mock data');
+                    // Keep default 50/50 split when no data
+                } else {
+                    console.warn('API returned unexpected format, using default values');
                 }
             } catch (err) {
                 console.error('Error fetching regulation data:', err);
@@ -106,32 +146,90 @@ export default function RightPanel() {
     }, []);
 
 
-    const handleBarClick = (category, value) => {
+    const handleBarClick = async (category, value) => {
         setSelectedBar({ category, value });
+        setBarDescription(null);
         console.log(`Clicked on ${category}: ${value}%`);
+
+        try {
+            // Convert category to uppercase for the API
+            const categoryUpper = category.toUpperCase();
+            console.log(`Fetching details for ${categoryUpper}...`);
+            const response = await fetch(`${RISKS_API_URL}/risks/detail/${categoryUpper}`, {
+                headers: { 
+                    'accept': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
+            
+            const contentType = response.headers.get('content-type');
+            console.log('Response content-type:', contentType);
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log(`${category} details response:`, data);
+
+            if (data && data.description) {
+                setBarDescription(data.description);
+            } else {
+                console.warn('No description field found in response');
+            }
+        } catch (err) {
+            console.error(`Error fetching ${category} details:`, err);
+            setBarDescription(`Error loading description: ${err.message}`);
+        }
     };
 
     const handleSegmentClick = async (segment, percentage) => {
         setSelectedSegment({ segment, percentage });
         setSegmentDetails(null);
+        
+        // Set default descriptions for each segment type
+        const defaultDescriptions = {
+            overlaps: "Cases where two requirements are redundant or partially duplicate the same regulatory obligations.",
+            conflicts: "Cases where two requirements conflict or impose opposing obligations that cannot be satisfied simultaneously."
+        };
+        
+        setSegmentDescription(defaultDescriptions[segment]);
 
-        const endpoint = segment === 'overlaps'
-            ? `${API_BASE_URL}/overlaps/?limit=10&offset=0`
-            : `${API_BASE_URL}/contradictions/?limit=10&offset=0`;
+        // Map segment name to API parameter - use singular forms 'overlap' and 'contradiction'
+        const conflictType = segment === 'overlaps' ? 'overlap' : 'contradiction';
+        const endpoint = `${CONFLICTS_API_URL}/conflicts/detail/${conflictType}`;
 
         try {
             console.log(`Fetching ${segment} details from:`, endpoint);
 
             const response = await fetch(endpoint, {
-                headers: { 'accept': 'application/json' }
+                headers: { 
+                    'accept': 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
+                }
             });
 
             const data = await response.json();
             console.log(`${segment} response:`, data);
 
-            if (!data.detail) {
-                const results = data.results || data;
-                setSegmentDetails(Array.isArray(results) ? results : []);
+            if (data && data.items && Array.isArray(data.items)) {
+                setSegmentDetails(data.items);
+                
+                // Override with specific description from first item if available
+                if (data.items.length > 0 && data.items[0].description) {
+                    setSegmentDescription(data.items[0].description);
+                }
+            } else if (Array.isArray(data)) {
+                // Handle case where response is directly an array
+                setSegmentDetails(data);
+                if (data.length > 0 && data[0].description) {
+                    setSegmentDescription(data[0].description);
+                }
+            } else if (data && data.count === 0) {
+                // No data available - keep default description
+                console.log(`No ${segment} data available`);
+                setSegmentDetails([]);
             } else {
                 setSegmentDetails([]);
             }
@@ -198,6 +296,11 @@ export default function RightPanel() {
                 {selectedBar && (
                     <div className={styles.infoBox}>
                         <strong>{selectedBar.category}</strong>: {selectedBar.value}% coverage
+                        {barDescription && (
+                            <div style={{ marginTop: '8px', fontSize: '13px', color: '#64748b', lineHeight: '1.5' }}>
+                                {barDescription}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -251,6 +354,20 @@ export default function RightPanel() {
                         <h4 className={styles.detailsTitle}>
                             {selectedSegment.segment.charAt(0).toUpperCase() + selectedSegment.segment.slice(1)} Details
                         </h4>
+
+                        {segmentDescription && (
+                            <div style={{ 
+                                marginBottom: '12px', 
+                                padding: '12px', 
+                                backgroundColor: '#f8fafc', 
+                                borderRadius: '6px',
+                                fontSize: '13px',
+                                color: '#475569',
+                                lineHeight: '1.5'
+                            }}>
+                                {segmentDescription}
+                            </div>
+                        )}
 
                         {segmentDetails.length > 0 ? (
                             <>
