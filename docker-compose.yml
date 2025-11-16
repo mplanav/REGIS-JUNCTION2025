@@ -9,23 +9,10 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./data:/app/data   # <<--- AÑADIDO: carpeta local 'data' accesible dentro del contenedor
+      - ./backend/app:/app/app        # asegura código en caliente
+      - ./data:/app/data              # acceso a carpeta local 'data'
     depends_on:
       - postgres
-    networks:
-      - regis-net
-
-  frontend:
-    build:
-      context: ./regis-frontend
-      dockerfile: Dockerfile
-    container_name: regis-frontend
-    ports:
-      - "3000:80"
-    environment:
-      - VITE_API_URL=http://backend:8000/api/v1
-    depends_on:
-      - backend
     networks:
       - regis-net
 

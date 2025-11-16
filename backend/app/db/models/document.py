@@ -48,9 +48,8 @@ class Document(Base):
     # Timestamp
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    # Relation to chunks (Silver layer)
-    chunks = relationship(
-        "Chunk",
-        back_populates="document",
-        cascade="all, delete-orphan"
-    )
+    requirements = relationship(
+    "Requirement",
+    back_populates="document",
+    cascade="all, delete-orphan"
+)
